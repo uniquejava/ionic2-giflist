@@ -47,3 +47,50 @@ Cordova默认会使用UIWebView, 需要在config.xml中加入以下配置:
   <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine"/>
 ```
 
+## Fancy searchbox(Observable)
+see home.ts
+
+```html
+<ion-title>
+  <ion-searchbar color="primary" placeholder="enter subreddit name..." [(ngModel)]="subredditValue" [formControl]="subredditControl"></ion-searchbar>
+</ion-title>
+```
+
+```js
+export class HomePage {
+  subredditValue: string;
+  subredditControl: FormControl;
+
+  constructor(public navCtrl: NavController,
+              public dataService: Data,
+              public redditService: Reddit,
+              public modalCtrl: ModalController,
+              public platform: Platform,
+              public keyboard: Keyboard) {
+    this.subredditControl = new FormControl();
+  }
+
+  ionViewDidLoad(): void {
+    this.subredditControl.valueChanges.debounceTime(1500).distinctUntilChanged().subscribe(subreddit => {
+      if (subreddit != '' && subreddit) {
+        this.redditService.subreddit = subreddit;
+        this.changeSubreddit();
+        this.keyboard.close();
+      }
+    });
+    this.platform.ready().then(_ => {
+      this.loadSettings();
+    })
+  }
+
+  loadSettings(): void {
+    console.log('TODO: implement loadSettings()');
+  }
+
+
+  changeSubreddit() {
+    console.log('TODO: implement changeSubreddit()');
+  }
+}
+
+```
