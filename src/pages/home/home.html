@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="secondary">
     <ion-title>
-      <ion-searchbar color="primary" placeholder="enter subreddit name..."></ion-searchbar>
+      <ion-searchbar color="primary" placeholder="enter subreddit name..." [(ngModel)]="subredditValue" [formControl]="subredditControl"></ion-searchbar>
     </ion-title>
 
     <ion-buttons end="">
