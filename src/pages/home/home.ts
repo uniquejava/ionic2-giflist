@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {SettingsPage} from "../settings/settings";
 
 @Component({
   selector: 'page-home',
@@ -80,5 +81,26 @@ export class HomePage {
 
   loadMore(): void {
     this.redditService.nextPage();
+  }
+
+  openSettings(): void {
+    let settingsModal = this.modalCtrl.create(SettingsPage, {
+      perPage: this.redditService.perPage,
+      sort: this.redditService.sort,
+      subreddit: this.redditService.subreddit
+    });
+
+    settingsModal.onDidDismiss(settings => {
+      if (settings) {
+        this.redditService.perPage = settings.perPage;
+        this.redditService.sort = settings.sort;
+        this.redditService.subreddit = settings.subreddit;
+
+        // this.dataService.save(settings);
+        this.changeSubreddit();
+      }
+    });
+
+    settingsModal.present();
   }
 }
