@@ -27,7 +27,7 @@ export class Reddit {
   page: number = 1;
 
   // the amount of GIFs to display per page
-  perPage: number = 5;
+  perPage: number = 3;
 
   // A reference to the last post retrieved from Reddit (so we know where to start for the next page)
   after: string;
@@ -120,6 +120,18 @@ export class Reddit {
       console.log("subreddit doesn't exist!");
     });
 
+  }
+
+  nextPage(): void {
+    this.page++;
+    this.fetchData();
+  }
+
+  resetPosts(): void {
+    this.page = 1;
+    this.posts = [];
+    this.after = null;
+    this.fetchData();
   }
 
 }

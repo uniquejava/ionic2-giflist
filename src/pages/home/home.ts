@@ -48,7 +48,7 @@ export class HomePage {
 
 
   changeSubreddit() {
-
+    this.redditService.resetPosts();
   }
 
   playVideo(e, post): void {
@@ -76,5 +76,9 @@ export class HomePage {
 
   showComments(post): void {
     let browser = this.iab.create('http://reddit.com' + post.data.permalink, '_system');
+  }
+
+  loadMore(): void {
+    this.redditService.nextPage();
   }
 }
