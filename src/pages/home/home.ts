@@ -8,6 +8,7 @@ import {FormControl} from "@angular/forms";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @Component({
   selector: 'page-home',
@@ -22,7 +23,8 @@ export class HomePage {
               public redditService: Reddit,
               public modalCtrl: ModalController,
               public platform: Platform,
-              public keyboard: Keyboard) {
+              public keyboard: Keyboard,
+              public iab: InAppBrowser) {
     this.subredditControl = new FormControl();
   }
 
@@ -70,5 +72,9 @@ export class HomePage {
     } else {
       video.pause();
     }
+  }
+
+  showComments(post): void {
+    let browser = this.iab.create('http://reddit.com' + post.data.permalink, '_system');
   }
 }
