@@ -41,10 +41,34 @@ export class HomePage {
 
   loadSettings(): void {
     console.log('TODO: implement loadSettings()');
+    this.redditService.fetchData();
   }
 
 
   changeSubreddit() {
 
+  }
+
+  playVideo(e, post): void {
+    // create a reference to the video
+    let video = e.target;
+    if (!post.alreadyLoaded) {
+      post.showLoader = true;
+    }
+
+    // toggle the video playing
+    if (video.paused) {
+      // show the loader gif
+      video.play();
+
+      // once the video starts playing, remove the loader gif
+      video.addEventListener('playing', e => {
+        post.showLoader = false;
+        post.alreadLoaded = true;
+      });
+
+    } else {
+      video.pause();
+    }
   }
 }

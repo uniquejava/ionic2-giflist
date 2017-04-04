@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="secondary">
     <ion-title>
-      <ion-searchbar color="primary" placeholder="enter subreddit name..." [(ngModel)]="subredditValue" [formControl]="subredditControl"></ion-searchbar>
+      <ion-searchbar color="primary" placeholder="enter subreddit name..." [(ngModel)]="subredditValue" [formControl]="subredditControl" value=""></ion-searchbar>
     </ion-title>
 
     <ion-buttons end="">
@@ -15,14 +15,19 @@
 
 <ion-content>
   <ion-list>
-    <ion-item no-lines="">
-      GIF GOES HERE
-    </ion-item>
+    <div *ngFor="let post of redditService.posts">
+      <ion-item (click)="playVideo($event, post)" no-lines style="background-color:#000;">
+        <img src="assets/images/loader.gif" *ngIf="post.showLoader">
+        <video [src]="post.data.url" [poster]="post.data.snapshot"></video>
+      </ion-item>
 
-    <ion-list-header>TITLE GOES HERE</ion-list-header>
+      <ion-list-header (click)="showComments(post)" style="text-align:left;">{{post.data.title}}</ion-list-header>
+    </div>
 
-    <ion-item no-lines="" style="text-align:center;">
+    <ion-item  *ngIf="redditService.loading" no-lines style="text-align:center;">
       <img src="assets/images/loader.gif" style="width: 50px;">
     </ion-item>
   </ion-list>
+
+  <button ion-button="" color="light" full (click)="loadMore()">Load More...</button>
 </ion-content>
